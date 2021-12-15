@@ -271,7 +271,6 @@ func releaseFinish(releaseType string) error {
 		if err != nil {
 			return errors.New("error get remote tags")
 		}
-
 		remoteMajor, remoteMinor, _, err = getLastVersion(tags)
 	}
 
