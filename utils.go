@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
+	"sort"
 	"strconv"
 )
 
@@ -46,6 +48,9 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 		return 0, 0, 0, errors.New("version not found")
 	}
 
+	sort.Strings(versions)
+
+	fmt.Println(versions)
 	lastVersion := versions[count-1]
 
 	re = regexp.MustCompile(`/v(\d+)\.(\d+)\.(\d+)`)
