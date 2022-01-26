@@ -40,7 +40,21 @@ func isBranchHotfix(gitStatus string) bool {
 	return re.MatchString(gitStatus)
 }
 
+type version struct {
+	Major int
+	Minor int
+	Patch int
+}
+
+type versionItem struct {
+	Text    string
+	Sort    int
+	Version version
+}
+
 func getLastVersion(branches string) (major int, minor int, patch int, err error) {
+	var versionItems []versionItem
+
 	re := regexp.MustCompile(`/v(\d+)\.(\d+)\.(\d+)`)
 	versions := re.FindAllString(branches, -1)
 	count := len(versions)
@@ -48,22 +62,29 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 		return 0, 0, 0, errors.New("version not found")
 	}
 
-	sort.Strings(versions)
+	for i := 0; i < count; i++ {
+		re = regexp.MustCompile(`/v(\d+)\.(\d+)\.(\d+)`)
 
-	fmt.Println(versions)
-	lastVersion := versions[count-1]
+		numbers := re.FindStringSubmatch(versions[i])
 
-	re = regexp.MustCompile(`/v(\d+)\.(\d+)\.(\d+)`)
+		if len(numbers) < 2 {
+			return 0, 0, 0, errors.New("version not found")
+		}
 
-	numbers := re.FindStringSubmatch(lastVersion)
+		major, _ := strconv.Atoi(numbers[1])
+		minor, _ := strconv.Atoi(numbers[2])
+		patch, _ := strconv.Atoi(numbers[3])
 
-	if len(numbers) < 2 {
-		return 0, 0, 0, errors.New("version not found")
+		number, _ := strconv.Atoi(numbers[1] + numbers[2] + numbers[3])
+
+		versionItems = append(versionItems, versionItem{versions[i], number, version{major, minor, patch}})
 	}
 
-	major, _ = strconv.Atoi(numbers[1])
-	minor, _ = strconv.Atoi(numbers[2])
-	patch, _ = strconv.Atoi(numbers[3])
+	sort.Slice(versionItems, func(i, j int) bool { return versionItems[i].Sort < versionItems[j].Sort })
 
-	return major, minor, patch, nil
+	fmt.Println(versionItems)
+
+	lastVersion := versionItems[count-1]
+
+	return lastVersion.Version.Major, lastVersion.Version.Minor, lastVersion.Version.Patch, nil
 }
