@@ -112,7 +112,7 @@ func makeCommand(command string, arg string) {
 }
 
 func printInfo() {
-	println("VD 0.1.0")
+	println("VD 0.2.1")
 	println("")
 	println("Available commands:")
 	println("hs - Hotfix Start")
