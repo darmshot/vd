@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
@@ -81,8 +80,6 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 	}
 
 	sort.Slice(versionItems, func(i, j int) bool { return versionItems[i].Sort < versionItems[j].Sort })
-
-	fmt.Println(versionItems)
 
 	lastVersion := versionItems[count-1]
 
