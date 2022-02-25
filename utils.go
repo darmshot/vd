@@ -74,7 +74,11 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 		minor, _ := strconv.Atoi(numbers[2])
 		patch, _ := strconv.Atoi(numbers[3])
 
-		number, _ := strconv.Atoi(numbers[1] + numbers[2] + numbers[3])
+		majorPrepare := major * 100000
+
+		minorPrepare := minor * 10000
+
+		number := majorPrepare + minorPrepare + patch
 
 		versionItems = append(versionItems, versionItem{versions[i], number, version{major, minor, patch}})
 	}
