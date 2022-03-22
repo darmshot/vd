@@ -112,7 +112,7 @@ func makeCommand(command string, arg string) {
 }
 
 func printInfo() {
-	println("VD 0.2.2")
+	println("VD 0.2.4")
 	println("")
 	println("Available commands:")
 	println("hs - Hotfix Start")
@@ -131,7 +131,12 @@ func printInfo() {
 }
 
 func featureStart(featureName string) error {
-	_, err := gitCreateFeatureBranch(featureName)
+	_, err := gitPullDevelop()
+	if err != nil {
+		return err
+	}
+
+	_, err = gitCreateFeatureBranch(featureName)
 	if err != nil {
 		return errors.New("error create feature")
 	}
@@ -215,6 +220,11 @@ func releaseStart(releaseType string) error {
 		releaseName = buildNameBranchFromVersion(remoteMajor+1, 0, 0)
 	} else {
 		releaseName = buildNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
+	}
+
+	_, err = gitPullDevelop()
+	if err != nil {
+		return err
 	}
 
 	_, err = gitCreateReleaseBranch(releaseName)
@@ -333,6 +343,16 @@ func hotfixStart() error {
 	}
 
 	hotfixName := buildNameBranchFromVersion(major, minor, patch+1)
+
+	_, err = gitPullDevelop()
+	if err != nil {
+		return err
+	}
+
+	_, err = gitPullMaster()
+	if err != nil {
+		return err
+	}
 
 	_, err = gitCreateHotfixBranch(hotfixName)
 	if err != nil {
