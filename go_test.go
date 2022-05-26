@@ -91,4 +91,11 @@ func TestGetNumbersFromFeatureName(t *testing.T) {
 		t.Errorf("getNumbersFromName(string) is empty; want fill number")
 	}
 
+	name2 := "3242342"
+	numbers, _ = getNumbersFromName(name2)
+	fmt.Println(numbers)
+	if len(numbers) == 0 {
+		t.Errorf("getNumbersFromName(string) is empty; want fill number")
+	}
+
 }

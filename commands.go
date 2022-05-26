@@ -354,3 +354,17 @@ func gitCommit(message string) (string, error) {
 
 	return string(stdout), nil
 }
+
+func gitAdd() (string, error) {
+	cmd := exec.Command("git", "add", ".")
+	cmd.Stdin = os.Stdin
+	cmd.Stderr = os.Stderr
+	stdout, err := cmd.Output()
+
+	if err != nil {
+		println(err.Error())
+		return "", err
+	}
+
+	return string(stdout), nil
+}

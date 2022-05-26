@@ -491,6 +491,9 @@ func commit(tasks string, message string) error {
 		return errors.New("error is not feature branch")
 	}
 
+	fmt.Println(tasks)
+	fmt.Println(message)
+
 	numbers, err := getNumbersFromName(name)
 
 	count := len(numbers)
@@ -500,6 +503,11 @@ func commit(tasks string, message string) error {
 	}
 
 	fullMessage += message
+
+	_, err = gitAdd()
+	if err != nil {
+		return err
+	}
 
 	_, err = gitCommit(fullMessage)
 	if err != nil {
