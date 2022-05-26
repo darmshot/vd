@@ -6,9 +6,9 @@ import (
 )
 
 func TestBuildNameBranchFromVersion(t *testing.T) {
-	got := buildNameBranchFromVersion(0, 1, 0)
+	got := getNameBranchFromVersion(0, 1, 0)
 	if got != "v0.1.0" {
-		t.Errorf("buildNameBranchFromVersion(0,1,0) = %s; want v0.1.0", got)
+		t.Errorf("getNameBranchFromVersion(0,1,0) = %s; want v0.1.0", got)
 	}
 }
 
@@ -34,7 +34,7 @@ func TestGetLastVersion(t *testing.T) {
 	got := fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v1.2.2" {
-		t.Errorf("buildNameBranchFromVersion(string) = %s; want v1.2.2", got)
+		t.Errorf("getNameBranchFromVersion(string) = %s; want v1.2.2", got)
 	}
 
 	// test tagsTwo
@@ -43,7 +43,7 @@ func TestGetLastVersion(t *testing.T) {
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v1.2.2" {
-		t.Errorf("buildNameBranchFromVersion(string) = %s; want v1.2.2", got)
+		t.Errorf("getNameBranchFromVersion(string) = %s; want v1.2.2", got)
 	}
 
 	// test tagsThree
@@ -52,7 +52,7 @@ func TestGetLastVersion(t *testing.T) {
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v0.2.10" {
-		t.Errorf("buildNameBranchFromVersion(string) = %s; want v0.2.10", got)
+		t.Errorf("getNameBranchFromVersion(string) = %s; want v0.2.10", got)
 	}
 
 	// test tagsFour
@@ -61,7 +61,7 @@ func TestGetLastVersion(t *testing.T) {
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v0.3.0" {
-		t.Errorf("buildNameBranchFromVersion(string) = %s; want v0.3.0", got)
+		t.Errorf("getNameBranchFromVersion(string) = %s; want v0.3.0", got)
 	}
 
 	// test statusTrue
@@ -70,7 +70,7 @@ func TestGetLastVersion(t *testing.T) {
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v1.2.3" {
-		t.Errorf("buildNameBranchFromVersion(string) = %s; want v1.2.3", got)
+		t.Errorf("getNameBranchFromVersion(string) = %s; want v1.2.3", got)
 	}
 
 	// test statusWrong
@@ -79,6 +79,16 @@ func TestGetLastVersion(t *testing.T) {
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
 	if got != "v0.0.0" {
-		t.Errorf("buildNameBranchFromVersion(sting) = %s; want v0.0.0", got)
+		t.Errorf("getNameBranchFromVersion(sting) = %s; want v0.0.0", got)
 	}
+}
+
+func TestGetNumbersFromFeatureName(t *testing.T) {
+	name := "CREOS-333_4353_355"
+	numbers, _ := getNumbersFromName(name)
+	fmt.Println(numbers)
+	if len(numbers) == 0 {
+		t.Errorf("getNumbersFromName(string) is empty; want fill number")
+	}
+
 }
