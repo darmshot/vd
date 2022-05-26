@@ -4,10 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func main() {
 	var arg string
+	var arg2 string
 
 	args := os.Args
 	count := len(args)
@@ -25,10 +27,16 @@ func main() {
 		arg = ""
 	}
 
-	makeCommand(command, arg)
+	if count >= 4 {
+		arg2 = args[3]
+	} else {
+		arg2 = ""
+	}
+
+	makeCommand(command, arg, arg2)
 }
 
-func makeCommand(command string, arg string) {
+func makeCommand(command string, arg string, arg2 string) {
 	var releaseType string
 
 	if command == "hs" {
@@ -109,10 +117,23 @@ func makeCommand(command string, arg string) {
 			return
 		}
 	}
+
+	if command == "c" {
+		/*	if arg == "" {
+			println("name feature require")
+			return
+		}*/
+
+		err := commit(arg, arg2)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
 }
 
 func printInfo() {
-	println("VD 0.2.4")
+	println("VD 0.3.4")
 	println("")
 	println("Available commands:")
 	println("hs - Hotfix Start")
@@ -127,7 +148,8 @@ func printInfo() {
 	println("")
 	println("fs - Feature Start")
 	println("ff - Feature Finish")
-
+	println("")
+	println("c [?tasks] [?message] - Commit")
 }
 
 func featureStart(featureName string) error {
@@ -217,9 +239,9 @@ func releaseStart(releaseType string) error {
 	}
 
 	if releaseType == "major" {
-		releaseName = buildNameBranchFromVersion(remoteMajor+1, 0, 0)
+		releaseName = getNameBranchFromVersion(remoteMajor+1, 0, 0)
 	} else {
-		releaseName = buildNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
+		releaseName = getNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
 	}
 
 	_, err = gitPullDevelop()
@@ -258,7 +280,7 @@ func releaseFinish(releaseType string) error {
 		return errors.New("error get version from branch")
 	}
 
-	releaseName := buildNameBranchFromVersion(currentMajor, currentMinor, currentPatch)
+	releaseName := getNameBranchFromVersion(currentMajor, currentMinor, currentPatch)
 
 	_, err = gitPullRelease(releaseName)
 	if err != nil {
@@ -293,9 +315,9 @@ func releaseFinish(releaseType string) error {
 	}
 
 	if releaseType == "major" {
-		remoteReleaseName = buildNameBranchFromVersion(remoteMajor+1, 0, 0)
+		remoteReleaseName = getNameBranchFromVersion(remoteMajor+1, 0, 0)
 	} else {
-		remoteReleaseName = buildNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
+		remoteReleaseName = getNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
 	}
 
 	_, err = gitCreateTag(remoteReleaseName, "release from local branch: release/"+releaseName)
@@ -342,7 +364,7 @@ func hotfixStart() error {
 		return err
 	}
 
-	hotfixName := buildNameBranchFromVersion(major, minor, patch+1)
+	hotfixName := getNameBranchFromVersion(major, minor, patch+1)
 
 	_, err = gitPullDevelop()
 	if err != nil {
@@ -377,7 +399,7 @@ func hotfixFinish() error {
 		return errors.New("error get version from branch")
 	}
 
-	hotfixName := buildNameBranchFromVersion(currentMajor, currentMinor, currentPatch)
+	hotfixName := getNameBranchFromVersion(currentMajor, currentMinor, currentPatch)
 
 	_, err = gitCheckout("master")
 	if err != nil {
@@ -404,7 +426,7 @@ func hotfixFinish() error {
 		return errors.New("error get version from tags")
 	}
 
-	_, err = gitCreateTag(buildNameBranchFromVersion(remoteMajor, remoteMinor, remotePatch+1), "hotfix from local branch: hotfix/"+hotfixName)
+	_, err = gitCreateTag(getNameBranchFromVersion(remoteMajor, remoteMinor, remotePatch+1), "hotfix from local branch: hotfix/"+hotfixName)
 	if err != nil {
 		return errors.New("error create tag")
 	}
@@ -446,4 +468,48 @@ func pushDevelopMasterTags() {
 	if err != nil {
 		return
 	}
+}
+
+func commit(tasks string, message string) error {
+	//https://ontid.atlassian.net/browse/CREOS-647
+	var name string
+	var fullMessage string
+	stdout, err := gitStatus()
+	if err != nil {
+		return errors.New("error git status")
+	}
+
+	if tasks != "" {
+		name = tasks
+	} else if isBranchFeature(stdout) {
+		name, err = getFeatureName(stdout)
+		if err != nil {
+			return err
+		}
+	} else {
+		println("tasks is not valid")
+		return errors.New("error is not feature branch")
+	}
+
+	numbers, err := getNumbersFromName(name)
+
+	count := len(numbers)
+
+	for i := 0; i < count; i++ {
+		fullMessage += "https://ontid.atlassian.net/browse/CREOS-" + strconv.Itoa(numbers[i]) + "\n"
+	}
+
+	fullMessage += message
+
+	_, err = gitAdd()
+	if err != nil {
+		return err
+	}
+
+	_, err = gitCommit(fullMessage)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -7,20 +7,6 @@ import (
 	"strconv"
 )
 
-func buildNameBranchFromVersion(major int, minor int, patch int) string {
-	return "v" + strconv.Itoa(major) + "." + strconv.Itoa(minor) + "." + strconv.Itoa(patch)
-}
-func getFeatureName(gitStatus string) (string, error) {
-	re := regexp.MustCompile(`On branch feature/(.*)`)
-
-	result := re.FindStringSubmatch(gitStatus)
-	if len(result) < 2 {
-		return "", errors.New("feature name not found")
-	}
-
-	return result[1], nil
-}
-
 func isBranchFeature(gitStatus string) bool {
 	re := regexp.MustCompile(`On branch feature/.*`)
 
@@ -88,4 +74,38 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 	lastVersion := versionItems[count-1]
 
 	return lastVersion.Version.Major, lastVersion.Version.Minor, lastVersion.Version.Patch, nil
+}
+
+func getFeatureName(gitStatus string) (string, error) {
+	re := regexp.MustCompile(`On branch feature/(.*)`)
+
+	result := re.FindStringSubmatch(gitStatus)
+	if len(result) < 2 {
+		return "", errors.New("feature name not found")
+	}
+
+	return result[1], nil
+}
+
+func getNameBranchFromVersion(major int, minor int, patch int) string {
+	return "v" + strconv.Itoa(major) + "." + strconv.Itoa(minor) + "." + strconv.Itoa(patch)
+}
+
+func getNumbersFromName(name string) ([]int, error) {
+	var numbers []int
+
+	re := regexp.MustCompile(`\d+`)
+	numbersMatch := re.FindAllString(name, -1)
+	count := len(numbersMatch)
+
+	if count == 0 {
+		return numbers, errors.New("not found numbers")
+	}
+
+	for i := 0; i < count; i++ {
+		convertNumber, _ := strconv.Atoi(numbersMatch[i])
+		numbers = append(numbers, convertNumber)
+	}
+
+	return numbers, nil
 }
