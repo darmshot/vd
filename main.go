@@ -479,13 +479,13 @@ func commit(tasks string, message string) error {
 		return errors.New("error git status")
 	}
 
-	if isBranchFeature(stdout) {
+	if tasks != "" {
+		name = tasks
+	} else if isBranchFeature(stdout) {
 		name, err = getFeatureName(stdout)
 		if err != nil {
 			return err
 		}
-	} else if tasks != "" {
-		name = tasks
 	} else {
 		println("tasks is not valid")
 		return errors.New("error is not feature branch")
