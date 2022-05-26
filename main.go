@@ -491,9 +491,6 @@ func commit(tasks string, message string) error {
 		return errors.New("error is not feature branch")
 	}
 
-	fmt.Println(tasks)
-	fmt.Println(message)
-
 	numbers, err := getNumbersFromName(name)
 
 	count := len(numbers)

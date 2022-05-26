@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"sort"
 	"strconv"
@@ -95,13 +94,9 @@ func getNameBranchFromVersion(major int, minor int, patch int) string {
 func getNumbersFromName(name string) ([]int, error) {
 	var numbers []int
 
-	fmt.Println(name)
-
 	re := regexp.MustCompile(`\d+`)
 	numbersMatch := re.FindAllString(name, -1)
 	count := len(numbersMatch)
-
-	fmt.Println(numbersMatch)
 
 	if count == 0 {
 		return numbers, errors.New("not found numbers")
@@ -109,7 +104,6 @@ func getNumbersFromName(name string) ([]int, error) {
 
 	for i := 0; i < count; i++ {
 		convertNumber, _ := strconv.Atoi(numbersMatch[i])
-		fmt.Println(convertNumber)
 		numbers = append(numbers, convertNumber)
 	}
 
