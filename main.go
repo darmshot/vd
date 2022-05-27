@@ -474,6 +474,8 @@ func commit(tasks string, message string) error {
 	//https://ontid.atlassian.net/browse/CREOS-647
 	var name string
 	var fullMessage string
+	var numbers []int
+
 	stdout, err := gitStatus()
 	if err != nil {
 		return errors.New("error git status")
@@ -481,17 +483,22 @@ func commit(tasks string, message string) error {
 
 	if tasks != "" {
 		name = tasks
-	} else if isBranchFeature(stdout) {
+		numbers, err = getNumbersFromName(name)
+	}
+
+	if len(numbers) == 0 && isBranchFeature(stdout) {
 		name, err = getFeatureName(stdout)
 		if err != nil {
 			return err
 		}
-	} else {
+
+		numbers, err = getNumbersFromName(name)
+	}
+
+	if len(numbers) == 0 {
 		println("tasks is not valid")
 		return errors.New("error is not feature branch")
 	}
-
-	numbers, err := getNumbersFromName(name)
 
 	count := len(numbers)
 
