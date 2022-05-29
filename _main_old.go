@@ -148,6 +148,7 @@ func printInfo() {
 	println("ff - Feature Finish")
 	println("")
 	println("c [?tasks] [?message] - Commit")
+
 }
 
 /*func featureStart(featureName string) error {

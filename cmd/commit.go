@@ -23,7 +23,7 @@ import (
 
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
-	Use:   "commit",
+	Use:   "c",
 	Short: "Make commit",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
