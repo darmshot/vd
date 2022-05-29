@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"errors"
@@ -7,19 +7,19 @@ import (
 	"strconv"
 )
 
-func isBranchFeature(gitStatus string) bool {
+func IsBranchFeature(gitStatus string) bool {
 	re := regexp.MustCompile(`On branch feature/.*`)
 
 	return re.MatchString(gitStatus)
 }
 
-func isBranchRelease(gitStatus string) bool {
+func IsBranchRelease(gitStatus string) bool {
 	re := regexp.MustCompile(`On branch release/v(\d+)\.(\d+)\.(\d+)`)
 
 	return re.MatchString(gitStatus)
 }
 
-func isBranchHotfix(gitStatus string) bool {
+func IsBranchHotfix(gitStatus string) bool {
 	re := regexp.MustCompile(`On branch hotfix/v(\d+)\.(\d+)\.(\d+)`)
 
 	return re.MatchString(gitStatus)
@@ -37,7 +37,7 @@ type versionItem struct {
 	Version version
 }
 
-func getLastVersion(branches string) (major int, minor int, patch int, err error) {
+func GetLastVersion(branches string) (major int, minor int, patch int, err error) {
 	var versionItems []versionItem
 
 	re := regexp.MustCompile(`/v(\d+)\.(\d+)\.(\d+)`)
@@ -76,7 +76,7 @@ func getLastVersion(branches string) (major int, minor int, patch int, err error
 	return lastVersion.Version.Major, lastVersion.Version.Minor, lastVersion.Version.Patch, nil
 }
 
-func getFeatureName(gitStatus string) (string, error) {
+func GetFeatureName(gitStatus string) (string, error) {
 	re := regexp.MustCompile(`On branch feature/(.*)`)
 
 	result := re.FindStringSubmatch(gitStatus)
@@ -87,11 +87,11 @@ func getFeatureName(gitStatus string) (string, error) {
 	return result[1], nil
 }
 
-func getNameBranchFromVersion(major int, minor int, patch int) string {
+func GetNameBranchFromVersion(major int, minor int, patch int) string {
 	return "v" + strconv.Itoa(major) + "." + strconv.Itoa(minor) + "." + strconv.Itoa(patch)
 }
 
-func getNumbersFromName(name string) ([]int, error) {
+func GetNumbersFromName(name string) ([]int, error) {
 	var numbers []int
 
 	re := regexp.MustCompile(`\d+`)

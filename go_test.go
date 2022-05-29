@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/darmshot/vd/util"
 	"testing"
 )
 
 func TestBuildNameBranchFromVersion(t *testing.T) {
-	got := getNameBranchFromVersion(0, 1, 0)
+	got := util.GetNameBranchFromVersion(0, 1, 0)
 	if got != "v0.1.0" {
 		t.Errorf("getNameBranchFromVersion(0,1,0) = %s; want v0.1.0", got)
 	}
@@ -29,7 +30,7 @@ func TestGetLastVersion(t *testing.T) {
 	statusTrue := "On branch hotfix/v1.2.3\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n        commands.go\n        go.mod\n        go_test.go\n        main.go\n        readme.md\n        utils.go\n        vd\n\nnothing added to commit but untracked files present (use \"git add\" to track)\n\n"
 
 	// test tags
-	major, minor, patch, _ := getLastVersion(tags)
+	major, minor, patch, _ := util.GetLastVersion(tags)
 
 	got := fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -38,7 +39,7 @@ func TestGetLastVersion(t *testing.T) {
 	}
 
 	// test tagsTwo
-	major, minor, patch, _ = getLastVersion(tagsTwo)
+	major, minor, patch, _ = util.GetLastVersion(tagsTwo)
 
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -47,7 +48,7 @@ func TestGetLastVersion(t *testing.T) {
 	}
 
 	// test tagsThree
-	major, minor, patch, _ = getLastVersion(tagsThree)
+	major, minor, patch, _ = util.GetLastVersion(tagsThree)
 
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -56,7 +57,7 @@ func TestGetLastVersion(t *testing.T) {
 	}
 
 	// test tagsFour
-	major, minor, patch, _ = getLastVersion(tagsFour)
+	major, minor, patch, _ = util.GetLastVersion(tagsFour)
 
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -65,7 +66,7 @@ func TestGetLastVersion(t *testing.T) {
 	}
 
 	// test statusTrue
-	major, minor, patch, _ = getLastVersion(statusTrue)
+	major, minor, patch, _ = util.GetLastVersion(statusTrue)
 
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -74,7 +75,7 @@ func TestGetLastVersion(t *testing.T) {
 	}
 
 	// test statusWrong
-	major, minor, patch, _ = getLastVersion(statusWrong)
+	major, minor, patch, _ = util.GetLastVersion(statusWrong)
 
 	got = fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 
@@ -85,14 +86,14 @@ func TestGetLastVersion(t *testing.T) {
 
 func TestGetNumbersFromFeatureName(t *testing.T) {
 	name := "CREOS-333_4353_355"
-	numbers, _ := getNumbersFromName(name)
+	numbers, _ := util.GetNumbersFromName(name)
 	fmt.Println(numbers)
 	if len(numbers) == 0 {
 		t.Errorf("getNumbersFromName(string) is empty; want fill number")
 	}
 
 	name2 := "3242342"
-	numbers, _ = getNumbersFromName(name2)
+	numbers, _ = util.GetNumbersFromName(name2)
 	fmt.Println(numbers)
 	if len(numbers) == 0 {
 		t.Errorf("getNumbersFromName(string) is empty; want fill number")
