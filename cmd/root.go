@@ -30,9 +30,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "vd",
 	Short: "VD 0.3.4",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
+	Long: `
 Vd is CLI library for git flow.
 This application is make simply base git flow base commands`,
 	CompletionOptions: cobra.CompletionOptions{
