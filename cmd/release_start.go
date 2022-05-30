@@ -64,7 +64,7 @@ func init() {
 	// is called directly, e.g.:
 	// releaseStartCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	featureStartCmd.PersistentFlags().BoolP("major", "m", false, "Release Start and upgrade major version")
-	featureStartCmd.PersistentFlags().BoolP("first", "f", false, "Release Start first")
+	releaseStartCmd.PersistentFlags().BoolP("major", "m", false, "Release Start and upgrade major version")
+	releaseStartCmd.PersistentFlags().BoolP("first", "f", false, "Release Start first")
 
 }
