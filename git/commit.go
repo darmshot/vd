@@ -2,6 +2,7 @@ package git
 
 import (
 	"errors"
+	"github.com/darmshot/vd/data"
 	"github.com/darmshot/vd/util"
 	"strconv"
 )
@@ -39,7 +40,7 @@ func Commit(tasks string, message string) error {
 	count := len(numbers)
 
 	for i := 0; i < count; i++ {
-		fullMessage += "https://ontid.atlassian.net/browse/CREOS-" + strconv.Itoa(numbers[i]) + "\n"
+		fullMessage += data.CommitMessagePrefix + strconv.Itoa(numbers[i]) + "\n"
 	}
 
 	fullMessage += message
