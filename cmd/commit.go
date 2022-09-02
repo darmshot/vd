@@ -24,8 +24,10 @@ import (
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
 	Use:   "c",
-	Short: "Make commit",
-	Long: `This help make speed commit with url of task.
+	Short: "Make commit (in dev)",
+	Long: `Command in dev
+
+This help make speed commit with url of task.
 
 need add to .env COMMIT_MESSAGE_PREFIX=
 
