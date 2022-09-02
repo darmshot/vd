@@ -25,12 +25,12 @@ import (
 var commitCmd = &cobra.Command{
 	Use:   "c",
 	Short: "Make commit",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Long: `This help make speed commit with url of task.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+need add to .env COMMIT_MESSAGE_PREFIX=
+
+then you can make simple commits commands like vd c -t <number_task>
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		task, _ := cmd.Flags().GetString("task")
