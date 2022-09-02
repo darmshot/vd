@@ -83,6 +83,11 @@ func HotfixFinish() error {
 		return errors.New("error create tag")
 	}
 
+	_, err = gitPushMaster()
+	if err != nil {
+		return errors.New("error push master")
+	}
+
 	_, err = gitCheckout("develop")
 	if err != nil {
 		return errors.New("error checkout to develop")
