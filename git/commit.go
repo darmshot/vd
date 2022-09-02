@@ -45,10 +45,10 @@ func Commit(tasks string, message string) error {
 
 	fullMessage += message
 
-	_, err = gitAdd()
-	if err != nil {
-		return err
-	}
+	/*	_, err = gitAdd()
+		if err != nil {
+			return err
+		}*/
 
 	_, err = gitCommit(fullMessage)
 	if err != nil {
