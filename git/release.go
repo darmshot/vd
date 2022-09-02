@@ -42,8 +42,9 @@ func ReleaseStart(releaseType string) error {
 }
 
 func ReleaseFinish(releaseType string) error {
-	var remoteReleaseName string
+	//var remoteReleaseName string
 	var remoteMajor, remoteMinor = 0, 0
+	var newMajor, newMinor, newPatch int
 
 	stdout, err := gitStatus()
 	if err != nil {
@@ -95,15 +96,28 @@ func ReleaseFinish(releaseType string) error {
 	}
 
 	if releaseType == "major" {
-		remoteReleaseName = util.GetNameBranchFromVersion(remoteMajor+1, 0, 0)
+		newMajor = remoteMajor + 1
+		newMinor = 0
+		newPatch = 0
 	} else {
-		remoteReleaseName = util.GetNameBranchFromVersion(remoteMajor, remoteMinor+1, 0)
+		newMajor = remoteMajor
+		newMinor = remoteMinor + 1
+		newPatch = 0
 	}
 
-	_, err = gitCreateTag(remoteReleaseName, "release from local branch: release/"+releaseName)
+	//remoteReleaseName = util.GetNameBranchFromVersion(newMajor, newMinor, newPatch)
+	/*
+		change npm version
+	*/
+	_, err = util.SetNpmVersion(newMajor, newMinor, newPatch)
 	if err != nil {
-		return errors.New("error create tag")
+		return err
 	}
+
+	/*	_, err = gitCreateTag(remoteReleaseName, "release from local branch: release/"+releaseName)
+		if err != nil {
+			return errors.New("error create tag")
+		}*/
 
 	_, err = gitCheckout("develop")
 	if err != nil {
@@ -128,6 +142,11 @@ func ReleaseFinish(releaseType string) error {
 	_, err = gitDeleteRelease(releaseName)
 	if err != nil {
 		return errors.New("error delete local branch: release/" + releaseName)
+	}
+
+	_, err = gitPushTags()
+	if err != nil {
+		return err
 	}
 
 	return nil

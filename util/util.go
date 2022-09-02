@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
+	"os/exec"
 	"regexp"
 	"sort"
 	"strconv"
@@ -94,6 +95,10 @@ func GetNameBranchFromVersion(major int, minor int, patch int) string {
 	return "v" + strconv.Itoa(major) + "." + strconv.Itoa(minor) + "." + strconv.Itoa(patch)
 }
 
+func GetNameNpmVersionFromVersion(major int, minor int, patch int) string {
+	return strconv.Itoa(major) + "." + strconv.Itoa(minor) + "." + strconv.Itoa(patch)
+}
+
 func GetNumbersFromName(name string) ([]int, error) {
 	var numbers []int
 
@@ -125,4 +130,18 @@ func Env(key string) string {
 	}
 
 	return os.Getenv(key)
+}
+
+func SetNpmVersion(major int, minor int, patch int) (string, error) {
+	cmd := exec.Command("npm", "version", GetNameNpmVersionFromVersion(major, minor, patch))
+	cmd.Stdin = os.Stdin
+	cmd.Stderr = os.Stderr
+	stdout, err := cmd.Output()
+
+	if err != nil {
+		println(err.Error())
+		return "", err
+	}
+
+	return string(stdout), nil
 }

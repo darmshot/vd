@@ -78,15 +78,20 @@ func HotfixFinish() error {
 		return errors.New("error get version from tags")
 	}
 
-	_, err = gitCreateTag(util.GetNameBranchFromVersion(remoteMajor, remoteMinor, remotePatch+1), "hotfix from local branch: hotfix/"+hotfixName)
+	var newMajor = remoteMajor
+	var newMinor = remoteMinor
+	var newPatch = remotePatch + 1
+	/*
+		change npm version
+	*/
+	_, err = util.SetNpmVersion(newMajor, newMinor, newPatch)
 	if err != nil {
-		return errors.New("error create tag")
+		return err
 	}
-
-	_, err = gitPushTags()
-	if err != nil {
-		return errors.New("error push tags")
-	}
+	/*	_, err = gitCreateTag(util.GetNameBranchFromVersion(newMajor, newMinor, newPatch+1), "hotfix from local branch: hotfix/"+hotfixName)
+		if err != nil {
+			return errors.New("error create tag")
+		}*/
 
 	_, err = gitCheckout("develop")
 	if err != nil {
@@ -106,6 +111,11 @@ func HotfixFinish() error {
 	_, err = gitDeleteHotfix(hotfixName)
 	if err != nil {
 		return errors.New("error delete local branch: hotfix/" + hotfixName)
+	}
+
+	_, err = gitPushTags()
+	if err != nil {
+		return errors.New("error push tags")
 	}
 	return nil
 }

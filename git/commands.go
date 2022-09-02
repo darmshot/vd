@@ -355,8 +355,12 @@ func gitCommit(message string) (string, error) {
 	return string(stdout), nil
 }
 
-func gitAdd() (string, error) {
-	cmd := exec.Command("git", "add", ".")
+func gitAdd(add string) (string, error) {
+	if add == "" {
+		add = "."
+	}
+
+	cmd := exec.Command("git", "add", add)
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
 	stdout, err := cmd.Output()
