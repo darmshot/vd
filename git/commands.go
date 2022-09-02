@@ -349,7 +349,7 @@ func gitCommit(message string) (string, error) {
 
 	if err != nil {
 		println(err.Error())
-		return "", err
+		return "error git commit", err
 	}
 
 	return string(stdout), nil
