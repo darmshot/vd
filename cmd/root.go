@@ -37,6 +37,7 @@ This application is make simply base git flow base commands`,
 		DisableDefaultCmd: true,
 	},
 	Version: "0.4.4",
+
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
