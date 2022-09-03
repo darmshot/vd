@@ -93,6 +93,11 @@ func HotfixFinish() error {
 			return errors.New("error create tag")
 		}*/
 
+	_, err = gitPushTags()
+	if err != nil {
+		return errors.New("error push tags")
+	}
+
 	_, err = gitCheckout("develop")
 	if err != nil {
 		return errors.New("error checkout to develop")
@@ -111,11 +116,6 @@ func HotfixFinish() error {
 	_, err = gitDeleteHotfix(hotfixName)
 	if err != nil {
 		return errors.New("error delete local branch: hotfix/" + hotfixName)
-	}
-
-	_, err = gitPushTags()
-	if err != nil {
-		return errors.New("error push tags")
 	}
 	return nil
 }
