@@ -18,9 +18,19 @@ func HotfixStart() error {
 
 	hotfixName := util.GetNameBranchFromVersion(major, minor, patch+1)
 
+	_, err = gitCheckout("develop")
+	if err != nil {
+		return errors.New("error checkout to develop")
+	}
+
 	_, err = gitPullDevelop()
 	if err != nil {
 		return err
+	}
+
+	_, err = gitCheckout("master")
+	if err != nil {
+		return errors.New("error checkout to master")
 	}
 
 	_, err = gitPullMaster()
@@ -102,6 +112,11 @@ func HotfixFinish() error {
 	if err != nil {
 		return errors.New("error merge develop")
 	}
+
+	_, err = gitPushDevelop()
+	if err != nil {
+		return errors.New("error push develop")
+	}	
 
 	_, err = gitDeleteHotfix(hotfixName)
 	if err != nil {
