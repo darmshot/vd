@@ -24,14 +24,15 @@ import (
 // commitCmd represents the commit command
 var commitCmd = &cobra.Command{
 	Use:   "c",
-	Short: "Make commit (in dev)",
-	Long: `Command in dev
-
+	Short: "Make commit",
+	Long: `
 This help make speed commit with url of task.
 
-need add to .env COMMIT_MESSAGE_PREFIX=
+need add to .env COMMIT_MESSAGE_PREFIX=, JIRA_KEY=
 
 then you can make simple commits commands like vd c -t <number_task>
+
+allowed make several number task like 900_901
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
@@ -58,6 +59,6 @@ func init() {
 	// is called directly, e.g.:
 	// commitCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	commitCmd.PersistentFlags().StringP("task", "t", "", "number task or numbers like 100_101")
+	commitCmd.PersistentFlags().StringP("task", "t", "", "number task of numbers like 100 or 100_101")
 	commitCmd.PersistentFlags().StringP("message", "m", "", "commit message")
 }
