@@ -35,7 +35,7 @@ This application is make simply base git flow base commands`,
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
-	Version: "0.4.6",
+	Version: "1.0.0",
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
