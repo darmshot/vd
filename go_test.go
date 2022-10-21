@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/darmshot/vd/api"
 	"github.com/darmshot/vd/util"
+	"log"
 	"testing"
 )
 
@@ -99,4 +101,26 @@ func TestGetNumbersFromFeatureName(t *testing.T) {
 		t.Errorf("getNumbersFromName(string) is empty; want fill number")
 	}
 
+}
+
+func TestToDo(t *testing.T) {
+	data := api.GetToDo()
+
+	log.Printf("%+v", data)
+
+}
+
+func TestGetTask(t *testing.T) {
+	summary := api.GetIssueSummary("CREOS-859")
+
+	if summary != "[53][Webshop] prep CP to subdomain" {
+		t.Errorf("summary is not valid")
+
+	}
+}
+
+func TestGetLastPartFromUrl(t *testing.T) {
+	result := util.GetLastPartFromUrl("https://ontid.atlassian.net/browse/CREOS-859")
+
+	fmt.Println(result)
 }

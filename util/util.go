@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 func IsBranchFeature(gitStatus string) bool {
@@ -111,6 +112,14 @@ func GetNumbersFromName(name string) ([]int, error) {
 	}
 
 	return numbers, nil
+}
+
+func GetLastPartFromUrl(url string) string {
+
+	parts := strings.Split(url, "/")
+	end := parts[len(parts)-1]
+
+	return end
 }
 
 // use godot package to load/read the .env file and
