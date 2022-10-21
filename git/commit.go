@@ -2,6 +2,7 @@ package git
 
 import (
 	"errors"
+	"github.com/darmshot/vd/api"
 	"github.com/darmshot/vd/data"
 	"github.com/darmshot/vd/util"
 	"strconv"
@@ -40,19 +41,17 @@ func Commit(tasks string, message string) error {
 	count := len(numbers)
 
 	for i := 0; i < count; i++ {
-		fullMessage += data.CommitMessagePrefix + strconv.Itoa(numbers[i]) + "\n"
+		url := data.CommitMessagePrefix + strconv.Itoa(numbers[i])
+		summary := api.GetIssueSummary(util.GetLastPartFromUrl(url))
+		fullMessage += url + " " + summary + "\n"
 	}
 
 	fullMessage += message
 
-	/*
-
-		_, err = gitAdd()
-			if err != nil {
-				return err
-			}
-
-	*/
+	_, err = gitAdd()
+	if err != nil {
+		return err
+	}
 
 	_, err = gitCommit(fullMessage)
 	if err != nil {
