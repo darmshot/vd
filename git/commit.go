@@ -2,17 +2,14 @@ package git
 
 import (
 	"errors"
-	"github.com/darmshot/vd/api"
-	"github.com/darmshot/vd/data"
 	"github.com/darmshot/vd/util"
-	"strconv"
 )
 
 func Commit(tasks string, message string) error {
 	//https://ontid.atlassian.net/browse/CREOS-647
 	var name string
 	var fullMessage string
-	var numbers []int
+	var numbers []int // - numbers of task
 
 	stdout, err := gitStatus()
 	if err != nil {
@@ -34,19 +31,11 @@ func Commit(tasks string, message string) error {
 	}
 
 	if len(numbers) == 0 {
-		println("tasks is not valid")
+		println("feature is not valid")
 		return errors.New("error is not feature branch")
 	}
 
-	count := len(numbers)
-
-	for i := 0; i < count; i++ {
-		url := data.CommitMessagePrefix + strconv.Itoa(numbers[i])
-		summary := api.GetIssueSummary(util.GetLastPartFromUrl(url))
-		fullMessage += url + " " + summary + "\n"
-	}
-
-	fullMessage += message
+	fullMessage = util.GetCommitMessage(name, numbers, message)
 
 	_, err = gitAdd()
 	if err != nil {
