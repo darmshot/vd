@@ -1,23 +1,15 @@
-package api
+package jsonplaceholder
 
-import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"log"
-	"net/http"
-)
+//const BaseURLJsonPlaceholder = "https://jsonplaceholder.typicode.com"
 
-const BaseURLJsonPlaceholder = "https://jsonplaceholder.typicode.com"
-
-type ToDo struct {
+type Task struct {
 	UserId    int    `json:"userId"`
 	Id        int    `json:"id"`
 	Title     string `json:"title"`
 	Completed bool   `json:"completed"`
 }
 
-func GetToDo() ToDo {
+/*func GetTask() Task {
 
 	key := "1"
 
@@ -35,7 +27,7 @@ func GetToDo() ToDo {
 
 	bytes, err := io.ReadAll(resp.Body)
 	log.Println(string(bytes))
-	var response ToDo
+	var response Task
 	errUnmarshal := json.Unmarshal(bytes, &response)
 	if errUnmarshal != nil {
 		log.Fatal(errUnmarshal)
@@ -43,3 +35,4 @@ func GetToDo() ToDo {
 
 	return response
 }
+*/

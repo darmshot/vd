@@ -2,9 +2,9 @@ package util
 
 import (
 	"errors"
-	"github.com/joho/godotenv"
-	"log"
-	"os"
+	"github.com/darmshot/vd/api/jira"
+	"github.com/darmshot/vd/api/youtrack"
+	"github.com/darmshot/vd/config"
 	"regexp"
 	"sort"
 	"strconv"
@@ -122,16 +122,29 @@ func GetLastPartFromUrl(url string) string {
 	return end
 }
 
-// use godot package to load/read the .env file and
-// return the value of the key
-func Env(key string) string {
+func GetCommitMessage(name string, numbers []int, message string) string {
+	var summary string
+	var prefix string
+	var fullMessage string
 
-	// load .env file
-	err := godotenv.Load(".env")
+	count := len(numbers)
 
-	if err != nil {
-		log.Fatalf("Error loading .env file")
+	for i := 0; i < count; i++ {
+		if config.CommitMessagePrefix == "" {
+			prefix = name
+		} else {
+			prefix = config.CommitMessagePrefix + strconv.Itoa(numbers[i])
+		}
+
+		if config.TaskDriver == "jira" {
+			summary = " " + jira.GetIssueSummary(GetLastPartFromUrl(prefix))
+		} else if config.TaskDriver == "youtrack" {
+			summary = " " + youtrack.GetIssueSummary(GetLastPartFromUrl(prefix))
+		}
+		fullMessage += prefix + summary + "\n"
 	}
 
-	return os.Getenv(key)
+	fullMessage += message
+
+	return fullMessage
 }
