@@ -1,25 +1,21 @@
-package api
+package youtrack
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/darmshot/vd/data"
+	"github.com/darmshot/vd/config"
 	"io"
 	"log"
 	"net/http"
 )
 
 type Issue struct {
-	Fields IssueFields `json:"fields"`
-}
-
-type IssueFields struct {
 	Summary string `json:"summary"`
 }
 
 func GetIssueSummary(issueIdOrKey string) string {
-	//https://ontid.atlassian.net/browse/CREOS-859
-	URL := fmt.Sprintf("https://ontid.atlassian.net/rest/api/3/issue/%s", issueIdOrKey)
+	//SPORTDEFEND-121 добавить loading=lazy в виджет товаров
+	URL := fmt.Sprintf("%s/issues/%s", config.YoutrackBaseUrl, issueIdOrKey)
 
 	client := http.Client{}
 	req, err := http.NewRequest("GET", URL, nil)
@@ -27,9 +23,14 @@ func GetIssueSummary(issueIdOrKey string) string {
 		log.Fatal(err)
 	}
 
+	q := req.URL.Query()
+	q.Add("fields", "summary")
+	req.URL.RawQuery = q.Encode()
+
 	req.Header = http.Header{
 		"Accept":        {"application/json"},
-		"Authorization": {"Basic " + data.JiraKey},
+		"Content-Type":  {"application/json"},
+		"Authorization": {"Bearer " + config.YoutrackKey},
 	}
 
 	resp, err := client.Do(req)
@@ -54,5 +55,5 @@ func GetIssueSummary(issueIdOrKey string) string {
 		log.Fatal(errUnmarshal)
 	}
 
-	return response.Fields.Summary
+	return response.Summary
 }

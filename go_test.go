@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/darmshot/vd/api"
+	"github.com/darmshot/vd/api/jira"
+	"github.com/darmshot/vd/api/youtrack"
 	"github.com/darmshot/vd/util"
 	"testing"
 )
@@ -101,14 +102,14 @@ func TestGetNumbersFromFeatureName(t *testing.T) {
 	}
 }
 
-/*func TestToDo(t *testing.T) {
-	api.GetToDo()
+/*func TestTask(t *testing.T) {
+	data := jsonplaceholder.GetTask()
 
-	//log.Printf("%+v", data)
+	log.Printf("%+v", data)
 }*/
 
-func TestGetTask(t *testing.T) {
-	summary := api.GetIssueSummary("CREOS-859")
+func TestJiraGetIssueSummary(t *testing.T) {
+	summary := jira.GetIssueSummary("CREOS-859")
 	fmt.Println(summary)
 	if summary != "[53][Webshop] prep CP to subdomain" {
 		t.Errorf("summary is not valid")
@@ -120,5 +121,29 @@ func TestGetLastPartFromUrl(t *testing.T) {
 
 	if result != "CREOS-859" {
 		t.Errorf("last part is not CREOS-859")
+	}
+}
+
+func TestYoutrackGetIssueSummary(t *testing.T) {
+	summary := youtrack.GetIssueSummary("SPORTDEFEND-121")
+	fmt.Println(summary)
+
+	if summary != "добавить loading=lazy в виджет товаров" {
+		t.Errorf("summary is not valid")
+	}
+}
+
+func TestGetCommitMessage(t *testing.T) {
+
+	var numbers []int
+
+	numbers = append(numbers, 121)
+
+	message := util.GetCommitMessage("SPORTDEFEND-121", numbers, "")
+
+	//println(message)
+
+	if message == "" {
+		t.Errorf("message is not valid")
 	}
 }

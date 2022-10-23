@@ -35,33 +35,12 @@ This application is make simply base git flow base commands`,
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
-	Version: "1.0.0",
+	Version: "1.1.0",
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
 }
-
-/*
-	println("VD 0.3.4")
-	println("")
-	println("Available commands:")
-	println("hs - Hotfix Start")
-	println("hf - Hotfix Finish")
-	println("")
-	println("rs - Release Start")
-	println("rs --major - Release Start and upgrade major version")
-	println("rs --first - Release Start first")
-	println("rf - Release Finish")
-	println("rf --major - Release Finish and upgrade major version")
-	println("rf --first - Release Finish first")
-	println("")
-	println("fs - Feature Start")
-	println("ff - Feature Finish")
-	println("")
-	println("c [?tasks] [?message] - Commit")
-
-*/
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
@@ -83,7 +62,7 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.
