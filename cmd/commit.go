@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,14 +25,10 @@ import (
 var commitCmd = &cobra.Command{
 	Use:   "c",
 	Short: "Make commit",
-	Long: `
-This help make speed commit with url of task.
-
-need add to .env COMMIT_MESSAGE_PREFIX=, JIRA_KEY=
-
-then you can make simple commits commands like vd c -t <number_task>
-
-allowed make several number task like 900_901
+	Long: `This make speed commit with url of task and title of task.
+Just run simple command "vd c" in feature branch or "vd c -t <number_task>" for any other branch.
+Allowed make commit with several number of task like "vd c -t 001_002".
+Require setup TASK_DRIVER COMMIT_MESSAGE_PREFIX in .env.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 

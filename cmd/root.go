@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,9 +18,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"os"
-
 	"github.com/spf13/viper"
+	"os"
 )
 
 //var cfgFile string
@@ -28,14 +27,15 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "vd",
-	Short: "VD is CLI library for git flow.",
-	Long: `
-VD is CLI library for git flow.
-This application is make simply base git flow base commands`,
+	Short: "VD is git flow CLI library.",
+	Long: `The simple Git Flow util for help you use git flow as this https://danielkummer.github.io/git-flow-cheatsheet/index.html.
+Integration with Youtrack, Jira (set url and title to commit from task manager).
+Automate add version tag to master branch.
+`,
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
-	Version: "1.1.0",
+	Version: "1.1.2",
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:

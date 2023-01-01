@@ -116,7 +116,7 @@ func HotfixFinish() error {
 	_, err = gitPushDevelop()
 	if err != nil {
 		return errors.New("error push develop")
-	}	
+	}
 
 	_, err = gitDeleteHotfix(hotfixName)
 	if err != nil {
