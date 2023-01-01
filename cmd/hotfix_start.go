@@ -4,8 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+Create branch "hotfix/vX.X.X" from master (only in local repository).
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,12 +26,8 @@ import (
 var hotfixStartCmd = &cobra.Command{
 	Use:   "hs",
 	Short: "Hotfix start",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long: `Create branch "hotfix/vX.X.X" from master (only in local repository).
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := git.HotfixStart()
 		if err != nil {
