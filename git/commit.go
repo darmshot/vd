@@ -6,7 +6,7 @@ import (
 )
 
 func Commit(tasks string, message string) error {
-	//https://ontid.atlassian.net/browse/CREOS-647
+
 	var name string
 	var fullMessage string
 	var numbers []int // - numbers of task

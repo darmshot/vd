@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,12 +25,11 @@ import (
 var releaseStartCmd = &cobra.Command{
 	Use:   "rs",
 	Short: "Release start",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long: `Create release branch "release/v0.1" and push to remote git repository.
+	First release should start with flag: "--first".
+	By default, upper minor version. If you need up major use flag: "--major".
+	Number tag will be got from last bigger version tag from you remote git repository.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var releaseType = "minor"
