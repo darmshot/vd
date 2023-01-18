@@ -125,7 +125,9 @@ func GetLastPartFromUrl(url string) string {
 func GetCommitMessage(name string, numbers []int, message string) string {
 	var summary string
 	var prefix string
-	var fullMessage string
+	var summaryList []string
+	var issueList []string
+	var messageBlockList []string
 
 	count := len(numbers)
 
@@ -141,10 +143,29 @@ func GetCommitMessage(name string, numbers []int, message string) string {
 		} else if config.TaskDriver == "youtrack" {
 			summary = " " + youtrack.GetIssueSummary(GetLastPartFromUrl(prefix))
 		}
-		fullMessage += prefix + summary + "\n"
+
+		if len(summary) != 0 {
+			summaryList = append(summaryList, summary)
+		}
+
+		if len(prefix) != 0 {
+			issueList = append(issueList, prefix)
+		}
 	}
 
-	fullMessage += message
+	if len(message) != 0 {
+		messageBlockList = append(messageBlockList, message)
+	}
 
-	return fullMessage
+	if len(summaryList) != 0 {
+		messageBlockList = append(messageBlockList, strings.Join(summaryList, "\n"))
+	}
+
+	if len(issueList) != 0 {
+		messageBlockList = append(messageBlockList, strings.Join(issueList, "; "))
+	}
+
+	result := strings.Join(messageBlockList, "\n\n")
+
+	return result
 }

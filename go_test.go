@@ -139,9 +139,9 @@ func TestGetCommitMessage(t *testing.T) {
 
 	numbers = append(numbers, 121)
 
-	message := util.GetCommitMessage("SPORTDEFEND-121", numbers, "")
+	message := util.GetCommitMessage("SPORTDEFEND-121", numbers, "feat: transfer menu")
 
-	//println(message)
+	println(message)
 
 	if message == "" {
 		t.Errorf("message is not valid")
