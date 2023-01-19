@@ -85,7 +85,9 @@ For example, if current git branch is feature/001. This automates create commit.
 
 **_Result:_**
 ```
-http://track-manager.url/path/TASK-001 Some title of task
+Some title of task
+
+http://track-manager.url/path/TASK-001
 ```
 
 **_Or for any other branch:_**
