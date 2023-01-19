@@ -162,7 +162,7 @@ func GetCommitMessage(name string, numbers []int, message string) string {
 	}
 
 	if len(issueList) != 0 {
-		messageBlockList = append(messageBlockList, "Closes "+strings.Join(issueList, "; "))
+		messageBlockList = append(messageBlockList, "Closes: "+strings.Join(issueList, ", "))
 	}
 
 	result := strings.Join(messageBlockList, "\n\n")
