@@ -35,7 +35,7 @@ Automate add version tag to master branch.
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd: true,
 	},
-	Version: "1.1.4",
+	Version: "1.1.5",
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
